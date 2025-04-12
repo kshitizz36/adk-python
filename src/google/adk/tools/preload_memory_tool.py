@@ -17,7 +17,6 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING
 
-from google.genai import types
 from typing_extensions import override
 
 from .base_tool import BaseTool
@@ -29,12 +28,12 @@ if TYPE_CHECKING:
 
 class PreloadMemoryTool(BaseTool):
   """A tool that preloads the memory for the current user."""
-
+  
   def __init__(self):
     # Name and description are not used because this tool only
     # changes llm_request.
     super().__init__(name='preload_memory', description='preload_memory')
-
+    
   @override
   async def process_llm_request(
       self,
@@ -56,7 +55,6 @@ class PreloadMemoryTool(BaseTool):
       for event in memory.events:
         if not event.content or not event.content.parts:
           continue
-
         parts_text = []
         for part in event.content.parts:
           if part.text:
@@ -72,10 +70,8 @@ class PreloadMemoryTool(BaseTool):
           elif part.inline_data:
             mime_type = part.inline_data.mime_type or "unknown type"
             parts_text.append(f"[Data: {mime_type}]")
-
         if parts_text:
           memory_text += f'{event.author}: {" ".join(parts_text)}\n'
-
     si = f"""The following content is from your previous conversations with the user.
 They may be useful for answering the user's current query.
 <PAST_CONVERSATIONS>
