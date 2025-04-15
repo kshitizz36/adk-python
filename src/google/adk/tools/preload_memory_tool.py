@@ -28,12 +28,12 @@ if TYPE_CHECKING:
 
 class PreloadMemoryTool(BaseTool):
   """A tool that preloads the memory for the current user."""
-  
+
   def __init__(self):
     # Name and description are not used because this tool only
     # changes llm_request.
     super().__init__(name='preload_memory', description='preload_memory')
-    
+
   @override
   async def process_llm_request(
       self,
@@ -55,23 +55,12 @@ class PreloadMemoryTool(BaseTool):
       for event in memory.events:
         if not event.content or not event.content.parts:
           continue
-        parts_text = []
+        text_parts = []
         for part in event.content.parts:
           if part.text:
-            parts_text.append(part.text)
-          elif part.function_call:
-            func_name = part.function_call.name or "unknown_function"
-            args = str(part.function_call.args or {})
-            parts_text.append(f"[Function Call: {func_name}({args})]")
-          elif part.function_response:
-            func_name = part.function_response.name or "unknown_function"
-            response = str(part.function_response.response or {})
-            parts_text.append(f"[Function Response: {func_name} -> {response}]")
-          elif part.inline_data:
-            mime_type = part.inline_data.mime_type or "unknown type"
-            parts_text.append(f"[Data: {mime_type}]")
-        if parts_text:
-          memory_text += f'{event.author}: {" ".join(parts_text)}\n'
+            text_parts.append(part.text)
+        if text_parts:
+          memory_text += f'{event.author}: {" ".join(text_parts)}\n'
     si = f"""The following content is from your previous conversations with the user.
 They may be useful for answering the user's current query.
 <PAST_CONVERSATIONS>
