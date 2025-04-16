@@ -1,4 +1,3 @@
-<!-- GitAds-Verify: 7PRM5XGVBWO9OAUWZK5BNWS4GH6MXMVV -->
 # Agent Development Kit (ADK)
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
