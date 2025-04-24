@@ -19,12 +19,10 @@ from typing import TYPE_CHECKING, List, Any
 
 from typing_extensions import override
 
-# Assuming these are the correct relative paths for your project structure
 from .base_tool import BaseTool
 from .tool_context import ToolContext
 
 if TYPE_CHECKING:
-  # Adjust the relative path if models is located differently
   from ..models import LlmRequest
 
 
